@@ -8,9 +8,12 @@ terraform {
       version = "2.13.0"
     }
   }
+
 }
 
 # Configure the docker provider
 provider "docker" {
-  host = "npipe:////.//pipe//docker_engine"
+  host = "npipe:////.//pipe//docker_engine" 
 }
+
+
