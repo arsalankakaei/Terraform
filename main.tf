@@ -48,7 +48,6 @@ variable "container_names" {
     }
 }
 
-
 resource "docker_container" "my_apache" {
   image = docker_image.httpd.latest
   for_each = var.container_names
@@ -59,6 +58,10 @@ resource "docker_container" "my_apache" {
       }
 	 
     
+}
+
+output "my_output" {
+  value = docker_container.my_apache
 }
   
 
