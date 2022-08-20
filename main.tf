@@ -1,38 +1,23 @@
-# Create a docker image resource
-# -> docker pull nginx:latest
-# resource "docker_image" "nginx" {
-#   name = "nginx:latest"
-#   keep_locally = true
-# }
+#Create a docker image resource
+#-> docker pull nginx:latest
+resource "docker_image" "nginx" {
+  name = "nginx:latest"
+  keep_locally = true
+}
 
 
 
+# Create a docker container resource
+# -> same as 'docker run --name nginx -p8080:80 -d nginx:latest'
+resource "docker_container" "nginx1" {
+  name    = "nginx1"
+  image   = docker_image.nginx.latest
 
-
-# # resource "docker_image" "ubuntu" {
-# #   name = "ubuntu_update_ping:1.0.0"
-# #   keep_locally = true
-# # }
-# # Create a docker container resource
-# # -> same as 'docker run --name nginx -p8080:80 -d nginx:latest'
-# resource "docker_container" "nginx1" {
-#   name    = "nginx1"
-#   image   = docker_image.nginx.latest
-
-#   ports {
-#     external = 8080
-#     internal = 80
-#   }
-# }
-
-# resource "docker_container" "u2" {
-#   name    = "u2"
-#   image   = docker_image.ubuntu_u.latest
-# }
-
-# resource "docker_image" "ubuntu" {                  # Create a Docker Image
-#     name = "ubuntu:latest"
-# }
+  ports {
+    external = 8085
+    internal = 80
+  }
+}
 
 
 resource "docker_image" "httpd" {
@@ -63,15 +48,18 @@ resource "docker_container" "my_apache" {
 output "my_output" {
   value = docker_container.my_apache
 }
+
+
+# Use a loca Ubuntu image.
+resource "docker_image" "ub" {
+  name = "ubuntu_update_ping:1.0.0"
+}
+
+resource "docker_container" "ubc" {
+  image = docker_image.ub.latest
+  name  = "u2"  
+  entrypoint = ["bin/bash"]
+  tty = true
+  stdin_open = true
   
-
-
-# resource "docker_container" "ubuntu" {
-#   name  = "foo"
-#   image = docker_image.ubuntu.latest
-# }
-
-# # Find the latest Ubuntu precise image.
-# resource "docker_image" "ubuntu" {
-#   name = "ubuntu:precise"
-# }
+}
