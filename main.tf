@@ -1,25 +1,3 @@
-#Create a docker image resource
-#-> docker pull nginx:latest
-resource "docker_image" "nginx" {
-  name = "nginx:latest"
-  keep_locally = true
-}
-
-
-
-# Create a docker container resource
-# -> same as 'docker run --name nginx -p8080:80 -d nginx:latest'
-resource "docker_container" "nginx1" {
-  name    = "nginx1"
-  image   = docker_image.nginx.latest
-
-  ports {
-    external = 8085
-    internal = 80
-  }
-}
-
-
 resource "docker_image" "httpd" {
   name = "httpd:latest"
   keep_locally = true
@@ -63,3 +41,10 @@ resource "docker_container" "ubc" {
   stdin_open = true
   
 }
+
+
+module "m1" {
+  source = "./m_nginx"
+  port = 8090   
+}
+
