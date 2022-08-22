@@ -43,8 +43,8 @@ resource "docker_container" "ubc" {
 }
 
 
+
 module "m1" {
   source = "./m_nginx"
-  port = 8090   
+  port = 8090
 }
-
